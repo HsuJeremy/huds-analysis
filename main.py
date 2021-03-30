@@ -13,21 +13,41 @@ def date_to_string(year, month, day):
     day_str = '0' + str(day) if day < 10 else str(day)
     return '{}-{}-{}'.format(year_str, month_str, day_str)
 
-# Assume date range spans only one month
-def get_frequencies(start_year, start_month, start_day, num_days, categories):
+# Assume date range spans only one month and all other inputs are valid
+def get_frequencies(start_year, start_month, start_day, num_days, categories, location=None):
     recipe_ids = []
     ceiling = start_day + num_days
     while start_day < ceiling:
         date_str = date_to_string(start_year, start_month, start_day)
+
         for category_id, _ in categories:
             params = {'date': date_str, 'category': category_id}
+            if location:
+                params['location'] = location
             menu = requests.get(os.path.join(BASE_URL, 'menus'), params).json()
             for item in menu:
                 recipe_ids.append((item['recipe'], category_id))
         start_day += 1
+
     return Counter(recipe_ids)
 
 if __name__ == '__main__':
+    # Location IDs
+    # 3: Cronkhite Dining Room
+    # 4: Dudley Cafe
+    # 5: Cabot and Pforzheimer House
+    # 7: Dunster and Mather House
+    # 8: Quincy House
+    # 9: Adams House
+    # 14: Eliot and Kirkland House
+    # 15: Lowell and Winthrop House
+    # 16: Leverett House
+    # 27: Sebastian's Cafe
+    # 29: Fly-By
+    # 30: Annenberg Hall
+    # 38: Currier House
+    # 54: Northwest Cafe
+
     target_categories = [
         # (1, 'Breakfast Meats'),
         # (2, 'Breakfast Entrees'),
