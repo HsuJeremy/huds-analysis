@@ -125,3 +125,19 @@ def get_frequencies(start_year, start_month, start_day, num_days, categories, lo
         start_day += 1
 
     return Counter(recipe_ids)
+
+def get_category_recipes(category_id):
+    recipe_ids = set()
+    for i in range(1, 31):
+        recipes = requests.get(BASE_URL + '/menus?date=' + date_to_string(2019, 12, i) + "&category=" + str(category_id)).json()
+        for recipe in recipes:
+            recipe_ids.add(recipe["recipe"])
+    for i in range(1, 13):
+        recipes = requests.get(BASE_URL + '/menus?date=' + date_to_string(2020, i, days_in_month(2020, i)) + "&category=" + str(category_id)).json()
+        for recipe in recipes:
+            recipe_ids.add(recipe["recipe"])
+    for i in range(1, 4):
+        recipes = requests.get(BASE_URL + '/menus?date=' + date_to_string(2021, i, days_in_month(2021, i)) + "&category=" + str(category_id)).json()
+        for recipe in recipes:
+            recipe_ids.add(recipe["recipe"])
+    return recipe_ids

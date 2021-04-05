@@ -4,9 +4,10 @@ import requests
 import plotly.graph_objects as go
 from collections import Counter
 from fruits import append_fruit_data
-from helpers import BASE_URL, get_frequencies
+from helpers import BASE_URL, get_frequencies, get_category_recipes
 from entrees import get_entrees_frequencies, sort_meats, append_meats_data
 from desserts import get_desserts_frequencies, sort_desserts, append_desserts_data
+from nutrition import get_calories_per_serving
 
 
 monochrome_colors = ['#251616', '#760000', '#C63F3F', '#E28073', '#F1D3CF']
@@ -247,11 +248,11 @@ def plot_desserts_types():
     Y_Fruit = []
     Y_Others = []
 
-    append_meats_data(2019, 12, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
+    append_desserts_data(2019, 12, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
     for i in range(1, 13):
-        append_meats_data(2020, i, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
+        append_desserts_data(2020, i, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
     for i in range(1, 4):
-        append_meats_data(2021, i, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
+        append_desserts_data(2021, i, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
     
     fig = go.Figure()
     
@@ -342,6 +343,59 @@ def plot_desserts_types():
     )
     fig.show()
 
+def plot_cps():
+    Y_entrees_cps = []
+    Y_breakfast_entrees_cps = []
+    Y_ventrees_cps = []
+    Y_desserts_cps = []
+    
+    get_calories_per_serving(12, Y_entrees_cps)
+    get_calories_per_serving(2, Y_breakfast_entrees_cps)
+    get_calories_per_serving(13, Y_ventrees_cps)
+    get_calories_per_serving(17, Y_desserts_cps)
+
+    fig = go.Figure()
+    fig.add_trace(go.Box(
+        x=Y_entrees_cps,
+        marker_color = primary_colors[0],
+        name = 'Entrees',
+        boxpoints = 'outliers'
+    ))
+
+    fig.add_trace(go.Box(
+        x=Y_breakfast_entrees_cps,
+        marker_color = primary_colors[1],
+        name = 'Breakfast Entrees',
+        boxpoints = 'outliers'
+    ))
+
+    fig.add_trace(go.Box(
+        x=Y_ventrees_cps,
+        marker_color = primary_colors[2],
+        name = 'Vegetarian Entrees',
+        boxpoints = 'outliers'
+    ))
+
+    fig.add_trace(go.Box(
+        x=Y_desserts_cps,
+        marker_color = primary_colors[3],
+        name = 'Desserts',
+        boxpoints = 'outliers'
+    ))
+
+    fig.update_layout(
+        title="Calories per Serving of HUDS Entrees and Desserts",
+        xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = 5, title={'text':'Calories per Ounce or Fluid Ounce'}),
+        xaxis_range=[0, 130],
+        yaxis={'title':{'text':'Food Categories'}},
+        legend={'title':{'text':'Groups'}},
+        template=theme_hodp
+    )
+
+    fig.show()
+    
+
+
 if __name__ == '__main__':
     # Location IDs
     # 3: Cronkhite Dining Room
@@ -389,8 +443,9 @@ if __name__ == '__main__':
     #for (recipe_id, category), occurrences in ordered_frequencies:
     #    name = requests.get((BASE_URL + '/recipes/' + str(recipe_id))).json()['name']
     #    print(name, category, occurrences)
-    #plot_entree_meats()
     plot_desserts_types()
+    #plot_cps()
+    
 
             
     
