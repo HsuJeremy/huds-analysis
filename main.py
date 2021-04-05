@@ -6,6 +6,7 @@ from collections import Counter
 from fruits import append_fruit_data
 from helpers import BASE_URL, get_frequencies
 from entrees import get_entrees_frequencies, sort_meats, append_meats_data
+from desserts import get_desserts_frequencies, sort_desserts, append_desserts_data
 
 
 monochrome_colors = ['#251616', '#760000', '#C63F3F', '#E28073', '#F1D3CF']
@@ -121,7 +122,7 @@ def plot_fruits():
     
     fig.show()
 
-def plot_meats():
+def plot_entree_meats():
 
     X_month_year = []
     Y_Chicken = []
@@ -231,11 +232,115 @@ def plot_meats():
     )
     fig.show()
 
+def plot_desserts_types():
 
+    X_month_year = []
+    Y_Cookies = []
+    Y_Pies = []
+    Y_Brownies = []
+    Y_Squares = []
+    Y_Cakes = []
+    Y_Frozen_Yogurt = []
+    Y_Soft_Serve_Yogurt = []
+    Y_Ice_Cream = []
+    Y_Pudding = []
+    Y_Fruit = []
+    Y_Others = []
 
+    append_meats_data(2019, 12, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
+    for i in range(1, 13):
+        append_meats_data(2020, i, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
+    for i in range(1, 4):
+        append_meats_data(2021, i, X_month_year, Y_Cookies, Y_Pies, Y_Brownies, Y_Squares, Y_Cakes, Y_Frozen_Yogurt, Y_Soft_Serve_Yogurt, Y_Ice_Cream, Y_Pudding, Y_Fruit, Y_Others)
+    
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Others,
+        name="Others",
+        marker_color="#60009F",
+    ))
 
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Fruit,
+        name="Fruit",
+        marker_color="#00A000",
+    ))
 
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Pudding,
+        name="Pudding",
+        marker_color="#2000DF",
+    ))
 
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Ice_Cream,
+        name="Ice Cream",
+        marker_color=monochrome_colors[3],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Soft_Serve_Yogurt,
+        name="Soft Serve Yogurt",
+        marker_color=monochrome_colors[2],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Frozen_Yogurt,
+        name="Frozen Yogurt",
+        marker_color=monochrome_colors[1],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Cakes,
+        name="Cakes",
+        marker_color=monochrome_colors[0],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Squares,
+        name="Squares",
+        marker_color=primary_colors[3],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Brownies,
+        name="Brownies",
+        marker_color=primary_colors[2],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Pies,
+        name="Pies",
+        marker_color=primary_colors[1],
+    ))
+
+    fig.add_trace(go.Bar(
+        x=X_month_year,
+        y=Y_Cookies,
+        name="Cookies",
+        marker_color=primary_colors[0],
+    ))
+
+    fig.update_layout(
+        barmode='stack',
+        title="Categorizing HUDS' Desserts",
+        xaxis={'title':{'text':'Month'}},
+        yaxis={'title':{'text':'Number of Dessert Listings'}},
+        legend={'title':{'text':'Groups'}},
+        template=theme_hodp
+    )
+    fig.show()
 
 if __name__ == '__main__':
     # Location IDs
@@ -257,9 +362,13 @@ if __name__ == '__main__':
     target_categories = [
         #(1, 'Breakfast Meats'),
         #(2, 'Breakfast Entrees'),
+        #(3, 'Breakfast Bakery'),
         #(4, 'Breakfast Misc'),
+        #(5, 'Breakfast Breads'),
         #(7, 'Today\'s Soup'),
         #(9, 'Brunch'),
+        #(10, 'Salad Bar'),
+        #(11, 'Sandwich Bar'),
         #(12, 'Entrees'),
         #(13, 'Vegetarian Entree'),
         #(14, 'Starch and Potatoes'),
@@ -274,14 +383,14 @@ if __name__ == '__main__':
         #(71, 'Pizza')
     ]
     
-    #count = get_frequencies(2020, 10, 1, 31, target_categories)
+    #count = get_frequencies(2019, 12, 1, 31, target_categories)
     #num_recipes = len(count.keys())
     #ordered_frequencies = count.most_common(num_recipes)
     #for (recipe_id, category), occurrences in ordered_frequencies:
-        #name = requests.get((BASE_URL + '/recipes/' + str(recipe_id))).json()['name']
-        #print(name, category, occurrences)
-    plot_meats()
-    #print(sort_meats(2020, 3))
+    #    name = requests.get((BASE_URL + '/recipes/' + str(recipe_id))).json()['name']
+    #    print(name, category, occurrences)
+    #plot_entree_meats()
+    plot_desserts_types()
 
             
     
