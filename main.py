@@ -579,8 +579,6 @@ def plot_cps():
 
     fig.show()
 
-
-
 if __name__ == '__main__':
     # Location IDs
     # 3: Cronkhite Dining Room
