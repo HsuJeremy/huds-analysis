@@ -1,14 +1,19 @@
 import requests
-from helpers import get_frequencies, days_in_month, BASE_URL
+from helpers import get_frequencies
+from helpers import days_in_month
+from helpers import BASE_URL
 
-# Get entrees frequencies for a single month 
+# Get entrees frequencies for a single month
 def get_entrees_frequencies(start_year, start_month, location=None):
     entrees_freq = {}
-    count = get_frequencies(start_year, start_month, 1, days_in_month(start_year, start_month), [(12, 'Entrees')])
+    count = get_frequencies(start_year, start_month, 1,
+                            days_in_month(start_year, start_month),
+                            [(12, 'Entrees')])
     num_recipes = len(count.keys())
     ordered_frequencies = count.most_common(num_recipes)
-    for (recipe_id, category), occurrences in ordered_frequencies:
-        name = requests.get((BASE_URL + '/recipes/' + str(recipe_id))).json()['name']
+    for (recipe_id, _), occurrences in ordered_frequencies:
+        url = '{}/recipes/{}'.format(BASE_URL, recipe_id)
+        name = requests.get(url).json()['name']
         entrees_freq[name] = occurrences
     return entrees_freq
 
@@ -41,10 +46,17 @@ def sort_meats(start_year, start_month):
         if 'Shrimp' in key:
             meat_freq['Shrimp'] = meat_freq['Shrimp'] + value
             key_sorted = True
-        if 'Turkey' in key: 
+        if 'Turkey' in key:
             meat_freq['Turkey'] = meat_freq['Turkey'] + value
             key_sorted = True
-        if 'Catch' in key or 'Cod' in key or 'Salmon' in key or 'Flounder' in key or 'Fish' in key or 'FISH' in key:
+        if (
+            'Catch' in key
+            or 'Cod' in key
+            or 'Salmon' in key
+            or 'Flounder' in key
+            or 'Fish' in key
+            or 'FISH' in key
+        ):
             meat_freq['Fish'] = meat_freq['Fish'] + value
             key_sorted = True
         if 'Sausage' in key:
@@ -59,28 +71,26 @@ def sort_meats(start_year, start_month):
         if 'Meatball' in key:
             meat_freq['Meatball'] = meat_freq['Meatball'] + value
             key_sorted = True
-        if key_sorted != True:
+        if not key_sorted:
             meat_freq['Others'] = meat_freq['Others'] + value
     return meat_freq
-        
-        
 
-def append_meats_data(start_year, start_month, X_list, Y_ch, Y_bf, Y_pl, Y_sh, Y_tk, Y_fs, Y_ss, Y_tf, Y_eg, Y_mt, Y_ot):
-    X_list.append(str(start_month) + "/" + str(start_year))
+def append_meats_data(start_year, start_month, X_list, Y_ch, Y_bf, Y_pl, Y_sh,
+                      Y_tk, Y_fs, Y_ss, Y_tf, Y_eg, Y_mt, Y_ot):
+    X_list.append(str(start_month) + '/' + str(start_year))
     Y_lists = {
-        'Chicken': Y_ch, 
-        'Beef': Y_bf, 
-        'Poultry': Y_pl, 
-        'Shrimp': Y_sh, 
-        'Turkey': Y_tk, 
-        'Fish': Y_fs, 
-        'Sausage': Y_ss, 
-        'Tofu': Y_tf, 
-        'Egg': Y_eg, 
-        'Meatball': Y_mt, 
+        'Chicken': Y_ch,
+        'Beef': Y_bf,
+        'Poultry': Y_pl,
+        'Shrimp': Y_sh,
+        'Turkey': Y_tk,
+        'Fish': Y_fs,
+        'Sausage': Y_ss,
+        'Tofu': Y_tf,
+        'Egg': Y_eg,
+        'Meatball': Y_mt,
         'Others': Y_ot
     }
     meat_freq = sort_meats(start_year, start_month)
     for key, value in Y_lists.items():
         value.append(meat_freq[key])
-    

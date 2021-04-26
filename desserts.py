@@ -1,14 +1,19 @@
 import requests
-from helpers import get_frequencies, days_in_month, BASE_URL
+from helpers import get_frequencies
+from helpers import days_in_month
+from helpers import BASE_URL
 
-# Get entrees frequencies for a single month 
+# Get entrees frequencies for a single month
 def get_desserts_frequencies(start_year, start_month, location=None):
     desserts_freq = {}
-    count = get_frequencies(start_year, start_month, 1, days_in_month(start_year, start_month), [(17, 'Desserts')])
+    count = get_frequencies(start_year, start_month, 1,
+                            days_in_month(start_year, start_month),
+                            [(17, 'Desserts')])
     num_recipes = len(count.keys())
     ordered_frequencies = count.most_common(num_recipes)
-    for (recipe_id, category), occurrences in ordered_frequencies:
-        name = requests.get((BASE_URL + '/recipes/' + str(recipe_id))).json()['name']
+    for (recipe_id, _), occurrences in ordered_frequencies:
+        url = '{}/recipes/{}'.format(BASE_URL, str(recipe_id))
+        name = requests.get(url).json()['name']
         desserts_freq[name] = occurrences
     return desserts_freq
 
@@ -41,7 +46,7 @@ def sort_desserts(start_year, start_month):
         if 'Square' in key:
             dessert_types['Squares'] = dessert_types['Squares'] + value
             key_sorted = True
-        if 'Cake' in key or 'cake' in key or 'Tiramisu' in key: 
+        if 'Cake' in key or 'cake' in key or 'Tiramisu' in key:
             dessert_types['Cakes'] = dessert_types['Cakes'] + value
             key_sorted = True
         if 'Frozen Yogurt' in key:
@@ -59,14 +64,13 @@ def sort_desserts(start_year, start_month):
         if key == 'Pineapple' or key == 'Watermelon':
             dessert_types['Fruit'] = dessert_types['Fruit'] + value
             key_sorted = True
-        if key_sorted != True:
+        if not key_sorted:
             dessert_types['Others'] = dessert_types['Others'] + value
     return dessert_types
-        
-        
 
-def append_desserts_data(start_year, start_month, X_list, Y_cook, Y_ps, Y_br, Y_sq, Y_cake, Y_fy, Y_ssy, Y_ic, Y_pd, Y_fr, Y_ot):
-    X_list.append(str(start_month) + "/" + str(start_year))
+def append_desserts_data(start_year, start_month, X_list, Y_cook, Y_ps, Y_br,
+                         Y_sq, Y_cake, Y_fy, Y_ssy, Y_ic, Y_pd, Y_fr, Y_ot):
+    X_list.append(str(start_month) + '/' + str(start_year))
     Y_lists = {
         'Cookies': Y_cook,
         'Pies': Y_ps,
@@ -83,6 +87,3 @@ def append_desserts_data(start_year, start_month, X_list, Y_cook, Y_ps, Y_br, Y_
     desserts_freq = sort_desserts(start_year, start_month)
     for key, value in Y_lists.items():
         value.append(desserts_freq[key])
-
-    
-    

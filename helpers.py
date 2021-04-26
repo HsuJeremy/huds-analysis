@@ -4,83 +4,83 @@ from collections import Counter
 BASE_URL = 'https://api.cs50.io/dining'
 
 categories = [
-  (1, "Breakfast Meats"), 
-  (2, "Breakfast Entrees"),
-  (3, "Breakfast Bakery"),
-  (4, "Breakfast Misc"),
-  (5, "Breakfast Breads"),
-  (7, "Today's Soup"),
-  (9, "Brunch"),
-  (10, "Salad Bar"),
-  (11, "Sandwich Bar"),
-  (12, "Entrees"),
-  (13, "Vegetarian Entree"),
-  (14, "Starch And Potatoes"),
-  (15, "Vegetables"),
-  (16, "Sides"),
-  (17, "Desserts"),
-  (18, "Bread, Rolls, Misc Bakery"),
-  (19, "From The Grill"),
-  (20, "Plant Protein"),
-  (21, "Basic Food Table"),
-  (22, "Brown Rice Station"),
-  (23, "Build Your Own"),
-  (24, "Special Bars Board Menu"),
-  (25, "Culinary Display"),
-  (26, "Entree Salads"),
-  (27, "In Addition at Annenberg"),
-  (28, "Bistro Bowl"),
-  (29, "Side Salads"),
-  (31, "Chefs Choice"),
-  (32, "Fresh Fruit"),
-  (33, "Sandwich Selections"),
-  (34, "Vegetarian Sandwich Selections"),
-  (36, "Extras"),
-  (37, "Bread Choices"),
-  (40, "Festive Meals"),
-  (42, "Fly-By"),
-  (43, "Fly-By Sandwiches and Salads"),
-  (45, "Chili Bar"),
-  (46, "Whole Grain Pasta Bar"),
-  (51, "CR Purchased Bottled Beverages"),
-  (52, "CR Baked Goods/Desserts"),
-  (53, "CR Snacks/Candy"),
-  (54, "Daily Bowl"),
-  (55, "International Cuisine"),
-  (58, "Deli Sandwiches"),
-  (59, "VEGETARIAN ENTREE"),
-  (60, "Entrees"),
-  (61, "Starch and Vegetable Selection"),
-  (62, "Daily Soups"),
-  (63, "CR Beverages Prepared"),
-  (64, "Salad Bar"),
-  (65, "Breakfast"),
-  (66, "Misc"),
-  (67, "Grains"),
-  (68, "From the Grill"),
-  (71, "Pizza"),
-  (72, "Asian Station"),
-  (73, "CR Other Resale Items"),
-  (74, "CR Salty Snacks"),
-  (75, "Odwalla Juices"),
-  (77, "Cereals"),
-  (78, "Bagels"),
-  (80, "PANINIS"),
-  (81, "Cheese"),
-  (83, "Yogurts, Jams and Spreads"),
-  (84, "Dressings"),
-  (85, "Beverages"),
-  (87, "Bag Meal Breakfast Options"),
-  (88, "Heart of the Plate"),
-  (89, "Special Bar"),
-  (90, "Brain Break"),
-  (91, "Bag Meal Specialty Sandwiches"),
-  (92, "Bag Meal Salads"),
-  (93, "Bag Meal Build Your Own"),
-  (94, "Bag Meal Bread Choices"),
-  (95, "Bag Meal Cheese Choices"),
-  (96, "Bagged Meal Sides"),
-  (97, "Bagged Meal Condiments")
+    (1, 'Breakfast Meats'),
+    (2, 'Breakfast Entrees'),
+    (3, 'Breakfast Bakery'),
+    (4, 'Breakfast Misc'),
+    (5, 'Breakfast Breads'),
+    (7, 'Today\'s Soup'),
+    (9, 'Brunch'),
+    (10, 'Salad Bar'),
+    (11, 'Sandwich Bar'),
+    (12, 'Entrees'),
+    (13, 'Vegetarian Entree'),
+    (14, 'Starch And Potatoes'),
+    (15, 'Vegetables'),
+    (16, 'Sides'),
+    (17, 'Desserts'),
+    (18, 'Bread, Rolls, Misc Bakery'),
+    (19, 'From The Grill'),
+    (20, 'Plant Protein'),
+    (21, 'Basic Food Table'),
+    (22, 'Brown Rice Station'),
+    (23, 'Build Your Own'),
+    (24, 'Special Bars Board Menu'),
+    (25, 'Culinary Display'),
+    (26, 'Entree Salads'),
+    (27, 'In Addition at Annenberg'),
+    (28, 'Bistro Bowl'),
+    (29, 'Side Salads'),
+    (31, 'Chefs Choice'),
+    (32, 'Fresh Fruit'),
+    (33, 'Sandwich Selections'),
+    (34, 'Vegetarian Sandwich Selections'),
+    (36, 'Extras'),
+    (37, 'Bread Choices'),
+    (40, 'Festive Meals'),
+    (42, 'Fly-By'),
+    (43, 'Fly-By Sandwiches and Salads'),
+    (45, 'Chili Bar'),
+    (46, 'Whole Grain Pasta Bar'),
+    (51, 'CR Purchased Bottled Beverages'),
+    (52, 'CR Baked Goods/Desserts'),
+    (53, 'CR Snacks/Candy'),
+    (54, 'Daily Bowl'),
+    (55, 'International Cuisine'),
+    (58, 'Deli Sandwiches'),
+    (59, 'VEGETARIAN ENTREE'),
+    (60, 'Entrees'),
+    (61, 'Starch and Vegetable Selection'),
+    (62, 'Daily Soups'),
+    (63, 'CR Beverages Prepared'),
+    (64, 'Salad Bar'),
+    (65, 'Breakfast'),
+    (66, 'Misc'),
+    (67, 'Grains'),
+    (68, 'From the Grill'),
+    (71, 'Pizza'),
+    (72, 'Asian Station'),
+    (73, 'CR Other Resale Items'),
+    (74, 'CR Salty Snacks'),
+    (75, 'Odwalla Juices'),
+    (77, 'Cereals'),
+    (78, 'Bagels'),
+    (80, 'PANINIS'),
+    (81, 'Cheese'),
+    (83, 'Yogurts, Jams and Spreads'),
+    (84, 'Dressings'),
+    (85, 'Beverages'),
+    (87, 'Bag Meal Breakfast Options'),
+    (88, 'Heart of the Plate'),
+    (89, 'Special Bar'),
+    (90, 'Brain Break'),
+    (91, 'Bag Meal Specialty Sandwiches'),
+    (92, 'Bag Meal Salads'),
+    (93, 'Bag Meal Build Your Own'),
+    (94, 'Bag Meal Bread Choices'),
+    (95, 'Bag Meal Cheese Choices'),
+    (96, 'Bagged Meal Sides'),
+    (97, 'Bagged Meal Condiments')
 ]
 
 # Assume date is valid
@@ -109,7 +109,8 @@ def days_in_month(year, month):
         return 30
 
 # Assume date range spans only one month and all other inputs are valid
-def get_frequencies(start_year, start_month, start_day, num_days, categories, location=None):
+def get_frequencies(start_year, start_month, start_day, num_days, categories,
+                    location=None):
     recipe_ids = []
     ceiling = start_day + num_days
     while start_day < ceiling:
@@ -129,15 +130,21 @@ def get_frequencies(start_year, start_month, start_day, num_days, categories, lo
 def get_category_recipes(category_id):
     recipe_ids = set()
     for i in range(1, 31):
-        recipes = requests.get(BASE_URL + '/menus?date=' + date_to_string(2019, 12, i) + "&category=" + str(category_id)).json()
+        date_str = date_to_string(2019, 12, i)
+        url = '{}/menus?date={}&category={}'.format(BASE_URL, date_str, str(category_id))
+        recipes = requests.get(url).json()
         for recipe in recipes:
-            recipe_ids.add(recipe["recipe"])
+            recipe_ids.add(recipe['recipe'])
     for i in range(1, 13):
-        recipes = requests.get(BASE_URL + '/menus?date=' + date_to_string(2020, i, days_in_month(2020, i)) + "&category=" + str(category_id)).json()
+        date_str = date_to_string(2020, i, days_in_month(2020, i))
+        url = '{}/menus?date={}&category={}'.format(BASE_URL, date_str, str(category_id))
+        recipes = requests.get(url).json()
         for recipe in recipes:
-            recipe_ids.add(recipe["recipe"])
+            recipe_ids.add(recipe['recipe'])
     for i in range(1, 4):
-        recipes = requests.get(BASE_URL + '/menus?date=' + date_to_string(2021, i, days_in_month(2021, i)) + "&category=" + str(category_id)).json()
+        date_str = date_to_string(2021, i, days_in_month(2021, i))
+        url = '{}/menus?date={}&category={}'.format(BASE_URL, date_str, str(category_id))
+        recipes = requests.get(url).json()
         for recipe in recipes:
-            recipe_ids.add(recipe["recipe"])
+            recipe_ids.add(recipe['recipe'])
     return recipe_ids
